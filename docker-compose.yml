@@ -1,0 +1,33 @@
+services:
+  redis:
+    image: redis:alpine
+  celery_beat:
+    build:
+      context: .
+    restart: always
+    command: poetry run celery -A stratiphy beat -l info
+    volumes:
+      - .:/app
+    container_name: celery_beat_container
+  celery:
+    build:
+      context: .
+    restart: always
+    command: poetry run celery -A stratiphy worker -l info
+    volumes:
+      - .:/app
+    container_name: celery_container
+    depends_on:
+      - redis
+      - celery_beat
+  api: &api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: stratiphy
+    command: poetry run python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    restart: unless-stopped

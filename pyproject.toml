@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "stocks"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^5.0.2"
+djangorestframework = "^3.14.0"
+mypy = "^1.8.0"
+black = "^24.2.0"
+flake8 = "^7.0.0"
+pytest-django = "^4.8.0"
+celery = {extras = ["redis"], version = "^5.3.6"}
+factory-boy = "^3.3.0"
+
+[tool.black]
+line-length = 79
+target-version = ['py310']
+exclude = '''
+/(
+  | migrations
+)/
+
+'''
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
